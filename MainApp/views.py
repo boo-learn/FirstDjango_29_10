@@ -18,11 +18,7 @@ items = [
 
 
 def main(request):
-    text = f"""
-    <h1>"Изучаем django"</h1>
-    <strong>Автор</strong>: <i>{author['surname']} {author['name'][0]}.{author['midlename'][0]}.</i>
-    """
-    return HttpResponse(text)
+    return render(request, 'index.html')
 
 
 def about(request):
@@ -39,12 +35,10 @@ def about(request):
 def get_item(request, id):
     for item in items:
         if item['id'] == id:
-            text = f"""
-            Товар: {item['name']}<br>
-            Количество:{item['quantity']}<br>
-            <a href="/items">Назад</a>
-            """
-            return HttpResponse(text)
+            context = {
+                "item": item
+            }
+            return render(request, 'item_page.html', context)
     return HttpResponseNotFound(f"Item with id={id} not found")
 
 
