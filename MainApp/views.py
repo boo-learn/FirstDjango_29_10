@@ -13,6 +13,7 @@ items = [
     {"id": 3, "name": "Coca-cola 1 литр", "quantity": 12},
     {"id": 4, "name": "Картофель фри", "quantity": 0},
     {"id": 5, "name": "Кепка", "quantity": 124},
+    {"id": 6, "name": "Попкорн", "quantity": 4},
 ]
 
 
@@ -38,6 +39,18 @@ def about(request):
 def get_item(request, id):
     for item in items:
         if item['id'] == id:
-            text = f"Товар: {item['name']}"
+            text = f"""
+            Товар: {item['name']}<br>
+            Количество:{item['quantity']}<br>
+            <a href="/items">Назад</a>
+            """
             return HttpResponse(text)
     return HttpResponseNotFound(f"Item with id={id} not found")
+
+
+def all_items(request):
+    text = "<ol>"
+    for item in items:
+        text += f"<a href='/item/{item['id']}'><li>{item['name']}</li></a>"
+    text += "</ol>"
+    return HttpResponse(text)
