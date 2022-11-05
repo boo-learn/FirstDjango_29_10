@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseNotFound
+from MainApp.models import Item
 
 author = {
     "name": "Евгений",
@@ -43,8 +44,8 @@ def get_item(request, id):
 
 
 def all_items(request):
-    text = "<ol>"
-    for item in items:
-        text += f"<a href='/item/{item['id']}'><li>{item['name']}</li></a>"
-    text += "</ol>"
-    return HttpResponse(text)
+    items = Item.objects.all()
+    context = {
+        "items": items
+    }
+    return render(request, 'items.html', context)
